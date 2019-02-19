@@ -9,7 +9,7 @@ const code = `function add(a, b) {
 }
 `;
  
-class App extends React.Component {
+class Editor extends React.Component {
   state = { code };
  
   render() {
@@ -27,3 +27,5 @@ class App extends React.Component {
     );
   }
 }
+
+export default Editor;

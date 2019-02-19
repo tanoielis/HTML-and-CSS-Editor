@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Editor from './components/editor';
 import logo from './logo.svg';
 import './App.css';
 
@@ -44,7 +45,7 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <LambdaDemo />
+          <Editor />
         </header>
       </div>
     );

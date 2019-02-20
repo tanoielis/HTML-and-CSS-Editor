@@ -2,27 +2,37 @@ import React from 'react';
 import CodeEditor from './CodeEditor';
 import SplitPane from 'react-split-pane';
 import './App.css';
+import styled from 'styled-components';
 
 class App extends React.Component {
-    state = {
-        html: '',
-        css: ''
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            html: '',
+            css: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(editorName, value) {
-        this.setState({
-            editorName: value
-        });
+        let state = {};
+        state[editorName] = value;
+        this.setState(state);
     }
 
     render() {
+        let {html, css} = this.state;
+        
+        let Div = styled.div`${css}`
+
         return (
-            <SplitPane split="vertical" minSize={0} defaultSize={1000}>
+            <SplitPane split="vertical" minSize={0} defaultSize={800}>
               <SplitPane split="horizontal" minSize={0} defaultSize={500}>
-                  <CodeEditor style={'background: white;'} editorName="html" saveChange={this.handleChange} />
-                  <CodeEditor editorName="css" saveChange={this.handleChange} />
+                  <CodeEditor editorName="html" saveChange={this.handleChange} code={html} />
+                  <CodeEditor editorName="css" saveChange={this.handleChange} code={css}/>
               </SplitPane>
-              <div></div>
+              <Div dangerouslySetInnerHTML={{__html: html}} />
              </SplitPane>
         );
     }

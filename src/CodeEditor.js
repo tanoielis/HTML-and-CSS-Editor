@@ -8,18 +8,20 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-markup';
+import './CodeEditor.css';
 
 // import doesn't seem to work properly with parcel for jsx
 require('prismjs/components/prism-jsx');
 
 class CodeEditor extends React.Component {
-  state = {
-    code: `
-    <h1>Hello!</h1>
-    <p>This is an interactive paragraph.
-       Try editing it!</p>
-    `,
-  };
+  constructor (props) {
+    super(props);
+    this.state = {
+      code: props.code,
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
 
   handleChange(code) {
     this.props.saveChange(this.props.editorName, code);
@@ -27,6 +29,7 @@ class CodeEditor extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <main className="container">
         <div className="container__content">

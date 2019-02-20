@@ -1,55 +1,31 @@
-import React, { Component } from 'react';
-import Editor from './components/editor';
-import logo from './logo.svg';
+import React from 'react';
+import CodeEditor from './CodeEditor';
+import SplitPane from 'react-split-pane';
 import './App.css';
 
-class LambdaDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loading: false, msg: null };
-  }
+class App extends React.Component {
+    state = {
+        html: '',
+        css: ''
+    }
 
-  handleClick = api => e => {
-    e.preventDefault();
+    handleChange(editorName, value) {
+        this.setState({
+            editorName: value
+        });
+    }
 
-    this.setState({ loading: true });
-    fetch('/.netlify/functions/' + api)
-      .then(response => response.json())
-      .then(json => this.setState({ loading: false, msg: json.msg }));
-  };
-
-  render() {
-    const { loading, msg } = this.state;
-
-    return (
-      <p>
-        <button onClick={this.handleClick('hello')}>
-          {loading ? 'Loading...' : 'Call Lambda'}
-        </button>
-        <button onClick={this.handleClick('async-chuck-norris')}>
-          {loading ? 'Loading...' : 'Call Async Lambda'}
-        </button>
-        <br />
-        <span>{msg}</span>
-      </p>
-    );
-  }
-}
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <Editor />
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <SplitPane split="vertical" minSize={0} defaultSize={1000}>
+              <SplitPane split="horizontal" minSize={0} defaultSize={500}>
+                  <CodeEditor style={'background: white;'} editorName="html" saveChange={this.handleChange} />
+                  <CodeEditor editorName="css" saveChange={this.handleChange} />
+              </SplitPane>
+              <div></div>
+             </SplitPane>
+        );
+    }
 }
 
 export default App;
